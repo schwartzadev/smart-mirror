@@ -58,7 +58,7 @@ public class DateManager {
 //            (the value 2 for the keyframe duration is the refresh rate, i.e. the time will be off at max. 2 seconds from the clock)
             dm.updateDate();
             time.setText(dm.getTime());
-            day.setText(dm.getDay());
+            day.setText(dm.getDay());// TODO consider moving the day and full date updates to a longer keyframe...
             fullDate.setText(dm.getFullDate());
 //            System.out.println("updated " + dm.getTime());
         });
