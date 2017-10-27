@@ -7,10 +7,17 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import javafx.animation.Animation;
+
+import java.util.stream.Stream;
+
+import static javafx.stage.StageStyle.UNDECORATED;
 
 
 public class Window extends Application {
@@ -28,6 +35,7 @@ public class Window extends Application {
 
 
         // build window
+        primaryStage.initStyle(StageStyle.UNDECORATED); // perfect for mirror
         primaryStage.setResizable(false); // rm size changer
         primaryStage.setMaximized(true);
         primaryStage.setY(0); // top of screen
@@ -43,17 +51,16 @@ public class Window extends Application {
         DateManager dm = new DateManager();
         Timeline tl = new Timeline();
 
-        final Text time = new Text(10, 20, dm.getTime());
-        time.setFill(Color.WHITE);
+        final Text time = new Text(10, 110, dm.getTime());
 
+        final Text day = new Text(10, 210, dm.getDay());
 
-        final Text day = new Text(10, 60, dm.getDay());
-        day.setFill(Color.WHITE);
+        final Text fullDate = new Text(10, 310, dm.getFullDate());
 
-
-        final Text fullDate = new Text(10, 100, dm.getFullDate());
-        fullDate.setFill(Color.WHITE);
-
+        Stream.of(time, day, fullDate).forEach(text -> {
+                text.setFill(Color.WHITE);
+                text.setFont(Font.font("Verdana", FontWeight.BOLD, 70));
+        });
         final Group root = (Group)scene.getRoot();
         root.getChildren().addAll(time, day, fullDate);
 
