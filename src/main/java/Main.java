@@ -1,5 +1,3 @@
-import java.io.IOException;
-
 /**
  * Created by Andrew Schwartz on 10/26/17.
  */
@@ -8,11 +6,7 @@ public class Main {
         DateManager dm = new DateManager();
         WeatherManager wm = new WeatherManager("Denver");
         GreetingManager gm = new GreetingManager();
-        try {
-            wm.updateWeather();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        wm.updateWeather();
         wm.printInfo();
         dm.printInfo();
         System.out.println(gm.getGreeting());
