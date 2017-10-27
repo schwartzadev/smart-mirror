@@ -1,10 +1,24 @@
 import com.google.gson.Gson;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.stream.Stream;
 
 /**
  * Created by Andrew Schwartz on 10/26/17.
@@ -30,10 +44,44 @@ public class WeatherManager {
         this.location = location;
     }
 
-    public void updateWeather() throws IOException {
-        String raw = getJsonFromURL("https://api.apixu.com/v1/current.json?key=" + Config.key + "&q=" + location);
-        Gson gson = new Gson();
-        this.weather = gson.fromJson(raw, Weather.class);
+    public Weather updateWeather() {
+        String raw = null;
+        try {
+            raw = getJsonFromURL("https://api.apixu.com/v1/current.json?key=" + Config.key + "&q=" + location);
+            Gson gson = new Gson();
+            this.weather = gson.fromJson(raw, Weather.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            this.weather = null;
+        }
+        return getWeather();
+    }
+
+    void addWeather(final Scene scene) {
+        Timeline tl = new Timeline();
+
+        final Text temp = new Text(600, 110, this.updateWeather().current.tempF.toString());
+        final Text conditions = new Text(600, 210, this.updateWeather().current.condition.text);
+
+        VBox weatherContainer = new VBox(temp, conditions);
+        weatherContainer.setPadding(new Insets(0, 0, 0, 600)); // TODO make 'n' pixels away from right edge
+
+        Stream.of(temp, conditions).forEach(text -> {
+            text.setFill(Color.WHITE);
+            text.setFont(Font.font("Verdana", FontWeight.BOLD, 70));
+        });
+
+        weatherContainer.setAlignment(Pos.CENTER_RIGHT);
+
+        final Group root = (Group)scene.getRoot();
+        root.getChildren().add(weatherContainer);
+
+        tl.setCycleCount(Animation.INDEFINITE);
+        KeyFrame updateTime = new KeyFrame(Duration.seconds(10 * 60), event -> { // 10 min refresh
+            temp.setText(this.updateWeather().current.tempF.toString());
+        });
+        tl.getKeyFrames().add(updateTime);
+        tl.play();
     }
 
     private String getJsonFromURL(String urlLink) throws IOException{
