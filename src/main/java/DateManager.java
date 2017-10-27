@@ -1,5 +1,17 @@
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.stream.Stream;
 
 /**
  * Created by Andrew Schwartz on 10/26/17.
@@ -24,6 +36,34 @@ public class DateManager {
         System.out.println(day.format(date));
         System.out.println(fullDate.format(date));
         System.out.println("---------------");
+    }
+
+    void addTime(final Scene scene) {
+        DateManager dm = new DateManager();
+        Timeline tl = new Timeline();
+
+        final Text time = new Text(10, 110, dm.getTime());
+        final Text day = new Text(10, 210, dm.getDay());
+        final Text fullDate = new Text(10, 310, dm.getFullDate());
+
+        Stream.of(time, day, fullDate).forEach(text -> {
+            text.setFill(Color.WHITE);
+            text.setFont(Font.font("Verdana", FontWeight.BOLD, 70));
+        });
+        final Group root = (Group)scene.getRoot();
+        root.getChildren().addAll(time, day, fullDate);
+
+        tl.setCycleCount(Animation.INDEFINITE);
+        KeyFrame updateTime = new KeyFrame(Duration.seconds(2), event -> { // 2 seconds is the max margin of error for the time
+//            (the value 2 for the keyframe duration is the refresh rate, i.e. the time will be off at max. 2 seconds from the clock)
+            dm.updateDate();
+            time.setText(dm.getTime());
+            day.setText(dm.getDay());
+            fullDate.setText(dm.getFullDate());
+//            System.out.println("updated " + dm.getTime());
+        });
+        tl.getKeyFrames().add(updateTime);
+        tl.play();
     }
 
     public String getDay() {

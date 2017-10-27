@@ -1,3 +1,14 @@
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -27,5 +38,25 @@ public class GreetingManager {
         } else {
             return "morning";
         }
+    }
+
+    void addGreeting(final Scene scene) {
+        GreetingManager gm = new GreetingManager();
+        Timeline tl = new Timeline();
+
+        final Text greeting = new Text(200, 600, gm.getGreeting());
+
+        greeting.setFont(Font.font("Verdana", FontWeight.BOLD, 70));
+        greeting.setFill(Color.WHITE);
+
+        final Group root = (Group)scene.getRoot();
+        root.getChildren().addAll(greeting);
+
+        tl.setCycleCount(Animation.INDEFINITE);
+        KeyFrame updateTime = new KeyFrame(Duration.seconds(60 * 60), event -> { // 1 hr refresh rate
+            greeting.setText(gm.getGreeting());
+        });
+        tl.getKeyFrames().add(updateTime);
+        tl.play();
     }
 }
