@@ -1,8 +1,10 @@
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -50,8 +52,12 @@ public class DateManager {
             text.setFill(Color.WHITE);
             text.setFont(Font.font("Verdana", FontWeight.BOLD, 70));
         });
-        final Group root = (Group)scene.getRoot();
-        root.getChildren().addAll(time, day, fullDate);
+
+        VBox timeContainer = new VBox(time, day, fullDate);
+        timeContainer.setPadding(new Insets(20));
+
+        final VBox root = (VBox)scene.getRoot();
+        root.getChildren().add(timeContainer);
 
         tl.setCycleCount(Animation.INDEFINITE);
         KeyFrame updateTime = new KeyFrame(Duration.seconds(2), event -> { // 2 seconds is the max margin of error for the time

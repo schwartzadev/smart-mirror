@@ -64,7 +64,7 @@ public class WeatherManager {
         final Text conditions = new Text(600, 210, this.updateWeather().current.condition.text);
 
         VBox weatherContainer = new VBox(temp, conditions);
-        weatherContainer.setPadding(new Insets(0, 0, 0, 600)); // TODO make 'n' pixels away from right edge
+        weatherContainer.setPadding(new Insets(20)); // TODO make 'n' pixels away from right edge
 
         Stream.of(temp, conditions).forEach(text -> {
             text.setFill(Color.WHITE);
@@ -73,7 +73,7 @@ public class WeatherManager {
 
         weatherContainer.setAlignment(Pos.CENTER_RIGHT);
 
-        final Group root = (Group)scene.getRoot();
+        final VBox root = (VBox)scene.getRoot();
         root.getChildren().add(weatherContainer);
 
         tl.setCycleCount(Animation.INDEFINITE);

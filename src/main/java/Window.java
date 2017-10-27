@@ -2,8 +2,8 @@
  * Created by Andrew Schwartz on 10/26/17.
  */
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -17,9 +17,9 @@ public class Window extends Application {
     @Override
     public void start(final Stage primaryStage) {
         primaryStage.setTitle("Smart Mirror");
-//        primaryStage.setAlwaysOnTop(true);
-        Group root = new Group();
-        Scene scene = new Scene(root, Color.BLACK); // dimensions of window
+        VBox root = new VBox();
+        root.setFillWidth(true);
+        Scene scene = new Scene(root, Color.BLACK);
 
 
         // build window
@@ -33,11 +33,11 @@ public class Window extends Application {
         DateManager dm = new DateManager();
         dm.addTime(scene);
 
-        GreetingManager gm = new GreetingManager();
-        gm.addGreeting(scene);
-
         WeatherManager wm = new WeatherManager("Denver");
         wm.addWeather(scene);
+
+        GreetingManager gm = new GreetingManager();
+        gm.addGreeting(scene);
 
         primaryStage.show();
     }
