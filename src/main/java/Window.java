@@ -43,18 +43,37 @@ public class Window extends Application {
         primaryStage.setScene(scene);
 
         addTime(scene);
+        addGreeting(scene);
 
         primaryStage.show();
-
     }
+
+    private void addGreeting(final Scene scene) {
+        GreetingManager gm = new GreetingManager();
+        Timeline tl = new Timeline();
+
+        final Text greeting = new Text(200, 600, gm.getGreeting());
+
+        greeting.setFont(Font.font("Verdana", FontWeight.BOLD, 70));
+        greeting.setFill(Color.WHITE);
+
+        final Group root = (Group)scene.getRoot();
+        root.getChildren().addAll(greeting);
+
+        tl.setCycleCount(Animation.INDEFINITE);
+        KeyFrame updateTime = new KeyFrame(Duration.seconds(60 * 60), event -> { // 1 hr refresh rate
+            greeting.setText(gm.getGreeting());
+        });
+        tl.getKeyFrames().add(updateTime);
+        tl.play();
+    }
+
     private void addTime(final Scene scene) {
         DateManager dm = new DateManager();
         Timeline tl = new Timeline();
 
         final Text time = new Text(10, 110, dm.getTime());
-
         final Text day = new Text(10, 210, dm.getDay());
-
         final Text fullDate = new Text(10, 310, dm.getFullDate());
 
         Stream.of(time, day, fullDate).forEach(text -> {
