@@ -45,13 +45,10 @@ public class DateManager {
         Timeline tl = new Timeline();
 
         final Text time = new Text(dm.getTime());
+        time.setId("clock");
+
         final Text day = new Text(dm.getDay());
         final Text fullDate = new Text(dm.getFullDate());
-
-        Stream.of(time, day, fullDate).forEach(text -> {
-            text.setFill(Color.WHITE);
-            text.setFont(Font.font("Verdana", FontWeight.BOLD, 70));
-        });
 
         VBox timeContainer = new VBox(time, day, fullDate);
         timeContainer.setPadding(new Insets(20));

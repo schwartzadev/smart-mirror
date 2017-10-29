@@ -49,9 +49,6 @@ public class GreetingManager {
 
         final Text greeting = new Text(gm.getGreeting());
 
-        greeting.setFont(Font.font("Verdana", FontWeight.BOLD, 70));
-        greeting.setFill(Color.WHITE);
-
         HBox greetingContainer = new HBox(greeting);
         greetingContainer.setAlignment(Pos.CENTER);
         greetingContainer.setPadding(new Insets(100, 20, 20, 20));
@@ -62,9 +59,11 @@ public class GreetingManager {
         greeting.setTextAlignment(TextAlignment.CENTER);
 
         tl.setCycleCount(Animation.INDEFINITE);
+
         KeyFrame updateTime = new KeyFrame(Duration.seconds(60 * 60), event -> { // 1 hr refresh rate
             greeting.setText(gm.getGreeting());
         });
+
         tl.getKeyFrames().add(updateTime);
         tl.play();
     }

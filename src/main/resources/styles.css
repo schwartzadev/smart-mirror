@@ -1,0 +1,12 @@
+Text {
+     -fx-font-smoothing-type: lcd;
+     -fx-fill: white;
+     -fx-font-size: 25pt;
+     // greeting.setFont(Font.font("Verdana", FontWeight.BOLD, 70));
+}
+
+#clock {
+    // -fx-fill: red;
+    -fx-font-size: 45pt;
+    -fx-font-weight: bold;
+}

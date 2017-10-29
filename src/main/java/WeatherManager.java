@@ -4,12 +4,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -18,7 +14,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.stream.Stream;
 
 /**
  * Created by Andrew Schwartz on 10/26/17.
@@ -47,7 +42,7 @@ public class WeatherManager {
     public Weather updateWeather() {
         String raw;
         try {
-            raw = getJsonFromURL("https://api.apixu.com/v1/current.json?key=" + Config.key + "&q=" + location);
+            raw = getJsonFromURL("https://api.apixu.com/v1/current.json?weatherKey=" + Config.weatherKey + "&q=" + location);
             Gson gson = new Gson();
             this.weather = gson.fromJson(raw, Weather.class);
         } catch (IOException e) {
@@ -65,11 +60,6 @@ public class WeatherManager {
 
         VBox weatherContainer = new VBox(temp, conditions);
         weatherContainer.setPadding(new Insets(20)); // TODO make 'n' pixels away from right edge
-
-        Stream.of(temp, conditions).forEach(text -> {
-            text.setFill(Color.WHITE);
-            text.setFont(Font.font("Verdana", FontWeight.BOLD, 70));
-        });
 
         weatherContainer.setAlignment(Pos.CENTER_RIGHT);
 
