@@ -9,17 +9,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * Created by Andrew Schwartz on 10/26/17.
  */
 public class WeatherManager {
     private String location;
+    private String apiKey;
     private Weather weather;
 
     public Weather getWeather() {
@@ -35,14 +32,15 @@ public class WeatherManager {
         System.out.println("---------------");
     }
 
-    public WeatherManager(String location) {
-        this.location = location;
+    public WeatherManager(ConfigWeather cfw) {
+        this.location = cfw.getLocation();
+        this.apiKey = cfw.getWeatherApiKey();
     }
 
     public Weather updateWeather() {
         String raw;
         try {
-            raw = JsonUtils.getJsonFromURL("https://api.apixu.com/v1/current.json?key=" + Config.weatherKey + "&q=" + location);
+            raw = JsonUtils.getJsonFromURL("https://api.apixu.com/v1/current.json?key=" + this.apiKey + "&q=" + location);
             Gson gson = new Gson();
             this.weather = gson.fromJson(raw, Weather.class);
         } catch (IOException e) {

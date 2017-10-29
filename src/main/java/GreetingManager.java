@@ -22,8 +22,8 @@ import java.util.Date;
 public class GreetingManager {
     String name;
 
-    public GreetingManager() {
-        this.name = Config.name;
+    public GreetingManager(String name) {
+        this.name = name;
     }
 
     public String getGreeting() {

@@ -5,7 +5,6 @@ import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -27,13 +26,15 @@ import java.util.concurrent.TimeUnit;
  */
 public class NewsManager {
     private News news;
+    private final String apiKey;
     private final String source;
     private final String sortBy; // either 'top' or 'latest'
     private List<Text> headlines = new ArrayList<Text>();
 
-    public NewsManager(String source, String sortBy) {
-        this.source = source;
-        this.sortBy = sortBy;
+    public NewsManager(ConfigNews cfn) {
+        this.source = cfn.getSource();
+        this.sortBy = cfn.getSortBy();
+        this.apiKey = cfn.getNewsApiKey();
     }
 
     void add(final Scene scene) {
@@ -107,7 +108,7 @@ public class NewsManager {
     private News update() {
         String raw = null;
         try {
-            raw = JsonUtils.getJsonFromURL("https://newsapi.org/v1/articles?source=" + this.getSource() + "&sortBy=" + this.getSortBy() + "&apiKey=" + Config.newsKey);
+            raw = JsonUtils.getJsonFromURL("https://newsapi.org/v1/articles?source=" + this.getSource() + "&sortBy=" + this.getSortBy() + "&apiKey=" + this.apiKey);
             Gson gson = new Gson();
             this.news = gson.fromJson(raw, News.class);
         } catch (IOException e) {

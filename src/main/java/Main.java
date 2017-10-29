@@ -1,12 +1,17 @@
 /**
  * Created by Andrew Schwartz on 10/26/17.
  */
+import com.google.gson.Gson;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Main extends Application {
 
@@ -16,6 +21,8 @@ public class Main extends Application {
 
     @Override
     public void start(final Stage primaryStage) {
+        Config cfg = loadConfig();
+
         primaryStage.setTitle("Smart Mirror");
         VBox root = new VBox();
         root.setFillWidth(true);
@@ -31,12 +38,24 @@ public class Main extends Application {
         primaryStage.setScene(scene);
 
         new DateManager().addTime(scene);
-        new WeatherManager("Denver").addWeather(scene); // TODO put date and weather into one HBox
-//        new GreetingManager().addGreeting(scene);
-        new NewsManager("the-washington-post", "top").add(scene);
+        new WeatherManager(cfg.getWeather()).addWeather(scene); // TODO put date and weather into one HBox
+        new GreetingManager(cfg.getName()).addGreeting(scene);
+        new NewsManager(cfg.getNews()).add(scene);
 
         scene.getStylesheets().add("styles.css"); // TODO make news time font size actually work..?
 
         primaryStage.show();
+    }
+
+    private Config loadConfig() {
+        Config c = new Config();
+        try {
+            Gson gson = new Gson();
+            c = gson.fromJson(new String(Files.readAllBytes(Paths.get("config.json"))), Config.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return c;
     }
 }
