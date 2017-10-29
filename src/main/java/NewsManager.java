@@ -1,103 +1,81 @@
+import com.google.gson.Gson;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.stream.Stream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Andrew Schwartz on 10/26/17.
  */
-public class DateManager {
-    private java.util.Date date;
-    private DateFormat time = new SimpleDateFormat("HH:mm");
-    private DateFormat day = new SimpleDateFormat("EEEEE");
-    private DateFormat fullDate = new SimpleDateFormat("MMM. dd, yyyy");
+public class NewsManager {
+    private News news;
+    private final String source;
+    private final String sortBy; // either 'top' or 'latest'
+    private List<Text> headlines = new ArrayList<Text>();
 
-    DateManager() {
-        this.date = new java.util.Date();
+    public NewsManager(String source, String sortBy) {
+        this.source = source;
+        this.sortBy = sortBy;
     }
 
-    public void updateDate() {
-        setDate(new java.util.Date());
-    }
-
-    void printInfo() {
-        System.out.println("---------------");
-        System.out.println(time.format(date));
-        System.out.println(day.format(date));
-        System.out.println(fullDate.format(date));
-        System.out.println("---------------");
-    }
-
-    void addTime(final Scene scene) {
-        DateManager dm = new DateManager();
+    void add(final Scene scene) {
         Timeline tl = new Timeline();
 
-        final Text time = new Text(dm.getTime());
-        time.setId("clock");
+        VBox container = new VBox();
 
-        final Text day = new Text(dm.getDay());
-        final Text fullDate = new Text(dm.getFullDate());
+        this.news = this.update();
 
-        VBox timeContainer = new VBox(time, day, fullDate);
-        timeContainer.setPadding(new Insets(20));
+        for (int i = 0; i < 5; i++) {
+            headlines.add(new Text(this.news.articles.get(i).title));
+        }
+
+        container.getChildren().addAll(headlines);
+
+        container.setPadding(new Insets(20, 20, 20, 80));
+        container.setId("news-container");
 
         final VBox root = (VBox)scene.getRoot();
-        root.getChildren().add(timeContainer);
+        root.getChildren().add(container);
 
         tl.setCycleCount(Animation.INDEFINITE);
-        KeyFrame updateTime = new KeyFrame(Duration.seconds(2), event -> { // 2 seconds is the max margin of error for the time
-//            (the value 2 for the keyframe duration is the refresh rate, i.e. the time will be off at max. 2 seconds from the clock)
-            dm.updateDate();
-            time.setText(dm.getTime());
-            day.setText(dm.getDay());// TODO consider moving the day and full date updates to a longer keyframe...
-            fullDate.setText(dm.getFullDate());
-//            System.out.println("updated " + dm.getTime());
+        KeyFrame updateTime = new KeyFrame(Duration.seconds(2), event -> {
+            // TODO: add update cycle
         });
+
         tl.getKeyFrames().add(updateTime);
         tl.play();
     }
 
-    public String getDay() {
-        return day.format(date);
+    public News update() {
+        String raw = null;
+        try {
+            raw = JsonUtils.getJsonFromURL("https://newsapi.org/v1/articles?source=" + this.getSource() + "&sortBy=" + this.getSortBy() + "&apiKey=" + Config.newsKey);
+            Gson gson = new Gson();
+            this.news = gson.fromJson(raw, News.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            this.news = null;
+        }
+        return getNews();
     }
 
-    public String getTime() {
-        return time.format(date);
+    public String getSource() {
+        return source;
     }
 
-    public String getFullDate() {
-        return fullDate.format(date);
+    public String getSortBy() {
+        return sortBy;
     }
 
-    public java.util.Date getDate() {
-        return date;
-    }
-
-    public void setDate(java.util.Date date) {
-        this.date = date;
-    }
-
-    public void setTime(DateFormat time) {
-        this.time = time;
-    }
-
-    public void setDay(DateFormat day) {
-        this.day = day;
-    }
-
-    public void setFullDate(DateFormat fullDate) {
-        this.fullDate = fullDate;
+    public News getNews() {
+        return news;
     }
 }

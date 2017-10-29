@@ -39,6 +39,8 @@ public class Main extends Application {
         GreetingManager gm = new GreetingManager();
         gm.addGreeting(scene);
 
+        new NewsManager("reuters", "latest").add(scene);
+
         scene.getStylesheets().add("styles.css");
 
         primaryStage.show();
