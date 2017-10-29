@@ -31,11 +31,11 @@ public class Main extends Application {
         primaryStage.setScene(scene);
 
         new DateManager().addTime(scene);
-        new WeatherManager("Denver").addWeather(scene);
-        new GreetingManager().addGreeting(scene);
-        new NewsManager("reuters", "top").add(scene);
+        new WeatherManager("Denver").addWeather(scene); // TODO put date and weather into one HBox
+//        new GreetingManager().addGreeting(scene);
+        new NewsManager("the-washington-post", "top").add(scene);
 
-        scene.getStylesheets().add("styles.css");
+        scene.getStylesheets().add("styles.css"); // TODO make news time font size actually work..?
 
         primaryStage.show();
     }

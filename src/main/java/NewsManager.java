@@ -63,7 +63,7 @@ public class NewsManager {
 
             time.getStyleClass().add("time");
 
-            HBox hBox = new HBox(new Text(this.news.articles.get(i).title), time);
+            HBox hBox = new HBox(new Text(this.news.articles.get(i).title), time); // TODO shorten article name to n characters
             hBox.setSpacing(20);
             container.getChildren().add(hBox);
 //            headlines.add(new Text(this.news.articles.get(i).title));
