@@ -2,18 +2,13 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.stream.Stream;
 
 /**
  * Created by Andrew Schwartz on 10/26/17.
@@ -36,7 +31,6 @@ public class DateManager {
         System.out.println("---------------");
         System.out.println(time.format(date));
         System.out.println(day.format(date));
-        System.out.println(fullDate.format(date));
         System.out.println("---------------");
     }
 
@@ -46,10 +40,9 @@ public class DateManager {
         final Text time = new Text(this.getTime());
         time.setId("clock");
 
-        final Text day = new Text(this.getDay());
-        final Text fullDate = new Text(this.getFullDate());
+        final Text day = new Text(this.getDay() + " • " + this.getFullDate());
 
-        VBox timeContainer = new VBox(time, day, fullDate);
+        VBox timeContainer = new VBox(time, day);
         timeContainer.setPadding(new Insets(20));
 
         final VBox root = (VBox)scene.getRoot();
@@ -60,8 +53,7 @@ public class DateManager {
 //            (the value 2 for the keyframe duration is the refresh rate, i.e. the time will be off at max. 2 seconds from the clock)
             this.updateDate();
             time.setText(this.getTime());
-            day.setText(this.getDay());// TODO consider moving the day and full date updates to a longer keyframe...
-            fullDate.setText(this.getFullDate());
+            day.setText(this.getDay() + " • " + this.getFullDate());// TODO consider moving the day and full date updates to a longer keyframe...
 //            System.out.println("updated " + dm.getTime());
         });
         tl.getKeyFrames().add(updateTime);
@@ -94,9 +86,5 @@ public class DateManager {
 
     public void setDay(DateFormat day) {
         this.day = day;
-    }
-
-    public void setFullDate(DateFormat fullDate) {
-        this.fullDate = fullDate;
     }
 }
