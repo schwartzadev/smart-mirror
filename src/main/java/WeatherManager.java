@@ -42,7 +42,7 @@ public class WeatherManager {
     public Weather updateWeather() {
         String raw;
         try {
-            raw = getJsonFromURL("https://api.apixu.com/v1/current.json?weatherKey=" + Config.weatherKey + "&q=" + location);
+            raw = JsonUtils.getJsonFromURL("https://api.apixu.com/v1/current.json?key=" + Config.weatherKey + "&q=" + location);
             Gson gson = new Gson();
             this.weather = gson.fromJson(raw, Weather.class);
         } catch (IOException e) {
@@ -55,8 +55,8 @@ public class WeatherManager {
     void addWeather(final Scene scene) {
         Timeline tl = new Timeline();
 
-        final Text temp = new Text(this.updateWeather().current.tempF.toString());
-        final Text conditions = new Text(this.updateWeather().current.condition.text);
+        final Text temp = new Text(this.updateWeather().current.tempF.toString()); // TODO: use getters
+        final Text conditions = new Text(this.updateWeather().current.condition.text); // TODO: use getters
 
         VBox weatherContainer = new VBox(temp, conditions);
         weatherContainer.setPadding(new Insets(20)); // TODO make 'n' pixels away from right edge
@@ -72,30 +72,6 @@ public class WeatherManager {
         });
         tl.getKeyFrames().add(updateTime);
         tl.play();
-    }
-
-    private String getJsonFromURL(String urlLink) throws IOException{
-        BufferedReader reader = null;
-        StringBuffer buffer = new StringBuffer();
-        try {
-            URL url = new URL(urlLink);
-            reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            int read;
-            char[] chars = new char[1024];
-            while ((read = reader.read(chars)) != -1) {
-                buffer.append(chars, 0, read);
-            }
-        }  catch (MalformedURLException mue) {
-            System.out.println("location invalid");
-            System.exit(1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
-        return buffer.toString();
     }
 }
 
