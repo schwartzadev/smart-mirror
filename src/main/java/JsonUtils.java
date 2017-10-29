@@ -10,7 +10,7 @@ import java.net.URL;
 public class JsonUtils {
     public static String getJsonFromURL(String urlLink) throws IOException {
         BufferedReader reader = null;
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         try {
             URL url = new URL(urlLink);
             reader = new BufferedReader(new InputStreamReader(url.openStream()));

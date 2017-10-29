@@ -30,16 +30,10 @@ public class Main extends Application {
         primaryStage.setX(0); // left corner
         primaryStage.setScene(scene);
 
-        DateManager dm = new DateManager();
-        dm.addTime(scene);
-
-        WeatherManager wm = new WeatherManager("Denver");
-        wm.addWeather(scene);
-
-        GreetingManager gm = new GreetingManager();
-        gm.addGreeting(scene);
-
-        new NewsManager("reuters", "latest").add(scene);
+        new DateManager().addTime(scene);
+        new WeatherManager("Denver").addWeather(scene);
+        new GreetingManager().addGreeting(scene);
+        new NewsManager("reuters", "top").add(scene);
 
         scene.getStylesheets().add("styles.css");
 

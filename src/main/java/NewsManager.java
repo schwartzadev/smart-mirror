@@ -4,13 +4,20 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Andrew Schwartz on 10/26/17.
@@ -33,11 +40,36 @@ public class NewsManager {
 
         this.news = this.update();
 
-        for (int i = 0; i < 5; i++) {
-            headlines.add(new Text(this.news.articles.get(i).title));
-        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+//        System.out.println(sdf.format(new Date()));
 
-        container.getChildren().addAll(headlines);
+        for (int i = 0; i < 5; i++) {
+            Text time = new Text();
+
+            Date result = parseDate(sdf, this.news.articles.get(i).publishedAt);
+
+            long diff = result.getTime() - new Date().getTime();
+            long minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
+            long hours = TimeUnit.MILLISECONDS.toHours(diff);
+
+            if (Math.abs(minutes) >= 60) {
+//                time.setText(minutes + "m  " + hours + "h");
+                time.setText(Math.abs(hours) + "h");
+            } else {
+                time.setText(Math.abs(minutes) + "m");
+            }
+
+
+            time.getStyleClass().add("time");
+
+            HBox hBox = new HBox(new Text(this.news.articles.get(i).title), time);
+            hBox.setSpacing(20);
+            container.getChildren().add(hBox);
+//            headlines.add(new Text(this.news.articles.get(i).title));
+        }
+        container.setSpacing(10);
+//        container.getChildren().addAll(headlines);
 
         container.setPadding(new Insets(20, 20, 20, 80));
         container.setId("news-container");
@@ -54,7 +86,17 @@ public class NewsManager {
         tl.play();
     }
 
-    public News update() {
+    private Date parseDate(SimpleDateFormat sdf, String parseMe) {
+        Date published = null;
+        try {
+            published = sdf.parse(parseMe);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return published;
+    }
+
+    private News update() {
         String raw = null;
         try {
             raw = JsonUtils.getJsonFromURL("https://newsapi.org/v1/articles?source=" + this.getSource() + "&sortBy=" + this.getSortBy() + "&apiKey=" + Config.newsKey);

@@ -13,3 +13,9 @@ Text {
 #news-container Text {
     -fx-font-size: 18pt;
 }
+
+.time {
+    -fx-fill: #CECECE;
+    -fx-font-size: 2pt;
+    -fx-font-family: "monospace";
+}
