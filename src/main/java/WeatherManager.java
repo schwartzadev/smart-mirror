@@ -45,7 +45,7 @@ public class WeatherManager {
     }
 
     public Weather updateWeather() {
-        String raw = null;
+        String raw;
         try {
             raw = getJsonFromURL("https://api.apixu.com/v1/current.json?key=" + Config.key + "&q=" + location);
             Gson gson = new Gson();

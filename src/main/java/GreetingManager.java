@@ -21,7 +21,6 @@ import java.util.Date;
  */
 public class GreetingManager {
     String name;
-    String timeOfDay;
 
     public GreetingManager() {
         this.name = Config.name;
