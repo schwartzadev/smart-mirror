@@ -1,7 +1,8 @@
 Text {
      -fx-font-smoothing-type: lcd;
      -fx-fill: white;
-     -fx-font-size: 25pt;
+     -fx-font-size: 20pt;
+     -fx-font-family: "Catamaran Thin";
 }
 
 #clock {
