@@ -1,4 +1,4 @@
 .idea/
 **.iml
-**Config.java
 target
+config.json
