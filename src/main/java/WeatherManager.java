@@ -60,8 +60,8 @@ public class WeatherManager {
     void addWeather(final Scene scene) {
         Timeline tl = new Timeline();
 
-        final Text temp = new Text(600, 110, this.updateWeather().current.tempF.toString());
-        final Text conditions = new Text(600, 210, this.updateWeather().current.condition.text);
+        final Text temp = new Text(this.updateWeather().current.tempF.toString());
+        final Text conditions = new Text(this.updateWeather().current.condition.text);
 
         VBox weatherContainer = new VBox(temp, conditions);
         weatherContainer.setPadding(new Insets(20)); // TODO make 'n' pixels away from right edge

@@ -44,9 +44,9 @@ public class DateManager {
         DateManager dm = new DateManager();
         Timeline tl = new Timeline();
 
-        final Text time = new Text(10, 110, dm.getTime());
-        final Text day = new Text(10, 210, dm.getDay());
-        final Text fullDate = new Text(10, 310, dm.getFullDate());
+        final Text time = new Text(dm.getTime());
+        final Text day = new Text(dm.getDay());
+        final Text fullDate = new Text(dm.getFullDate());
 
         Stream.of(time, day, fullDate).forEach(text -> {
             text.setFill(Color.WHITE);

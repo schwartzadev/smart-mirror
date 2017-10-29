@@ -48,7 +48,7 @@ public class GreetingManager {
         GreetingManager gm = new GreetingManager();
         Timeline tl = new Timeline();
 
-        final Text greeting = new Text(200, 600, gm.getGreeting());
+        final Text greeting = new Text(gm.getGreeting());
 
         greeting.setFont(Font.font("Verdana", FontWeight.BOLD, 70));
         greeting.setFill(Color.WHITE);
