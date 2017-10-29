@@ -41,14 +41,13 @@ public class DateManager {
     }
 
     void addTime(final Scene scene) {
-        DateManager dm = new DateManager();
         Timeline tl = new Timeline();
 
-        final Text time = new Text(dm.getTime());
+        final Text time = new Text(this.getTime());
         time.setId("clock");
 
-        final Text day = new Text(dm.getDay());
-        final Text fullDate = new Text(dm.getFullDate());
+        final Text day = new Text(this.getDay());
+        final Text fullDate = new Text(this.getFullDate());
 
         VBox timeContainer = new VBox(time, day, fullDate);
         timeContainer.setPadding(new Insets(20));
@@ -59,10 +58,10 @@ public class DateManager {
         tl.setCycleCount(Animation.INDEFINITE);
         KeyFrame updateTime = new KeyFrame(Duration.seconds(2), event -> { // 2 seconds is the max margin of error for the time
 //            (the value 2 for the keyframe duration is the refresh rate, i.e. the time will be off at max. 2 seconds from the clock)
-            dm.updateDate();
-            time.setText(dm.getTime());
-            day.setText(dm.getDay());// TODO consider moving the day and full date updates to a longer keyframe...
-            fullDate.setText(dm.getFullDate());
+            this.updateDate();
+            time.setText(this.getTime());
+            day.setText(this.getDay());// TODO consider moving the day and full date updates to a longer keyframe...
+            fullDate.setText(this.getFullDate());
 //            System.out.println("updated " + dm.getTime());
         });
         tl.getKeyFrames().add(updateTime);

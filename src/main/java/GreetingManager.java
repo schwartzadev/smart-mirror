@@ -44,10 +44,9 @@ public class GreetingManager {
     }
 
     void addGreeting(final Scene scene) {
-        GreetingManager gm = new GreetingManager();
         Timeline tl = new Timeline();
 
-        final Text greeting = new Text(gm.getGreeting());
+        final Text greeting = new Text(this.getGreeting());
 
         HBox greetingContainer = new HBox(greeting);
         greetingContainer.setAlignment(Pos.CENTER);
@@ -61,7 +60,7 @@ public class GreetingManager {
         tl.setCycleCount(Animation.INDEFINITE);
 
         KeyFrame updateTime = new KeyFrame(Duration.seconds(60 * 60), event -> { // 1 hr refresh rate
-            greeting.setText(gm.getGreeting());
+            greeting.setText(this.getGreeting());
         });
 
         tl.getKeyFrames().add(updateTime);
