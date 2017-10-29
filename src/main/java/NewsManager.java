@@ -3,8 +3,11 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -52,18 +55,23 @@ public class NewsManager {
             long diff = result.getTime() - new Date().getTime();
             long minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
             long hours = TimeUnit.MILLISECONDS.toHours(diff);
+            long days = TimeUnit.MILLISECONDS.toDays(diff);
 
-            if (Math.abs(minutes) >= 60) {
-//                time.setText(minutes + "m  " + hours + "h");
+            if (Math.abs(days) >= 1) {
+                time.setText(Math.abs(days) + "d");
+            } else if (Math.abs(minutes) >= 60) { // TODO add day option
                 time.setText(Math.abs(hours) + "h");
             } else {
                 time.setText(Math.abs(minutes) + "m");
             }
 
-
             time.getStyleClass().add("time");
 
-            HBox hBox = new HBox(new Text(this.news.articles.get(i).title), time); // TODO shorten article name to n characters
+            Image newsIcon = new Image("news.png");
+
+            HBox hBox = new HBox(new ImageView(newsIcon), new Text(this.news.articles.get(i).title), time); // TODO shorten article name to n characters
+            hBox.setAlignment(Pos.BASELINE_LEFT);
+
             hBox.setSpacing(20);
             container.getChildren().add(hBox);
 //            headlines.add(new Text(this.news.articles.get(i).title));
