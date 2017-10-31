@@ -2,3 +2,5 @@
 **.iml
 target
 config.json
+out/
+META-INF/

@@ -51,7 +51,7 @@ public class Main extends Application {
         Config c = new Config();
         try {
             Gson gson = new Gson();
-            c = gson.fromJson(new String(Files.readAllBytes(Paths.get("config.json"))), Config.class);
+            c = gson.fromJson(new String(Files.readAllBytes(Paths.get(".\\config.json"))), Config.class);
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);

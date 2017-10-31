@@ -115,7 +115,7 @@ public class NewsManager {
             e.printStackTrace();
             this.news = null;
         }
-        System.out.println(raw);
+//        System.out.println(raw);
         return getNews();
     }
 
