@@ -42,7 +42,7 @@ public class Main extends Application {
 
 
         // ADD MODULES
-        new NewsManager(cfg.getNews()).make(scene);
+        VBox news = new NewsManager(cfg.getNews()).make(scene);
 
         VBox date = new DateManager().make();
 

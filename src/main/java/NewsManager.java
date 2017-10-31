@@ -38,18 +38,16 @@ public class NewsManager {
     }
 
     VBox make(final Scene scene) {
+        // passing Scene so old version can be removed on each cycle
         Timeline tl = new Timeline();
 
         VBox container = cycle();
 
-        final VBox root = (VBox)scene.getRoot();
-        root.getChildren().add(container);
-
         this.sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
+        final VBox root = (VBox)scene.getRoot();
         tl.setCycleCount(Animation.INDEFINITE);
-        KeyFrame updateTime = new KeyFrame(Duration.seconds(20), event -> {
-//        KeyFrame updateTime = new KeyFrame(Duration.seconds(60 * 2), event -> {
+        KeyFrame updateTime = new KeyFrame(Duration.seconds(60 * 2), event -> {
             VBox v = cycle();
             root.getChildren().remove(root.lookup("#news-container"));
             root.getChildren().add(v);
