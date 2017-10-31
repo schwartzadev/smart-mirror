@@ -34,7 +34,7 @@ public class DateManager {
         System.out.println("---------------");
     }
 
-    void addTime(final Scene scene) {
+    public VBox make() {
         Timeline tl = new Timeline();
 
         final Text time = new Text(this.getTime());
@@ -44,9 +44,6 @@ public class DateManager {
 
         VBox timeContainer = new VBox(time, day);
         timeContainer.setPadding(new Insets(20));
-
-        final VBox root = (VBox)scene.getRoot();
-        root.getChildren().add(timeContainer);
 
         tl.setCycleCount(Animation.INDEFINITE);
         KeyFrame updateTime = new KeyFrame(Duration.seconds(2), event -> { // 2 seconds is the max margin of error for the time
@@ -58,6 +55,7 @@ public class DateManager {
         });
         tl.getKeyFrames().add(updateTime);
         tl.play();
+        return timeContainer;
     }
 
     public String getDay() {

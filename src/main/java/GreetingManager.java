@@ -43,7 +43,7 @@ public class GreetingManager {
         }
     }
 
-    void addGreeting(final Scene scene) {
+    HBox make() {
         Timeline tl = new Timeline();
 
         final Text greeting = new Text(this.getGreeting());
@@ -51,9 +51,6 @@ public class GreetingManager {
         HBox greetingContainer = new HBox(greeting);
         greetingContainer.setAlignment(Pos.CENTER);
         greetingContainer.setPadding(new Insets(100, 20, 20, 20));
-
-        final VBox root = (VBox)scene.getRoot();
-        root.getChildren().add(greetingContainer);
 
         greeting.setTextAlignment(TextAlignment.CENTER);
 
@@ -65,5 +62,6 @@ public class GreetingManager {
 
         tl.getKeyFrames().add(updateTime);
         tl.play();
+        return greetingContainer;
     }
 }

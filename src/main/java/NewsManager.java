@@ -37,18 +37,19 @@ public class NewsManager {
         this.apiKey = cfn.getNewsApiKey();
     }
 
-    void add(final Scene scene) {
+    VBox make(final Scene scene) {
         Timeline tl = new Timeline();
 
         VBox container = cycle();
+
         final VBox root = (VBox)scene.getRoot();
         root.getChildren().add(container);
-
 
         this.sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         tl.setCycleCount(Animation.INDEFINITE);
-        KeyFrame updateTime = new KeyFrame(Duration.seconds(60 * 2), event -> {
+        KeyFrame updateTime = new KeyFrame(Duration.seconds(20), event -> {
+//        KeyFrame updateTime = new KeyFrame(Duration.seconds(60 * 2), event -> {
             VBox v = cycle();
             root.getChildren().remove(root.lookup("#news-container"));
             root.getChildren().add(v);
@@ -56,6 +57,7 @@ public class NewsManager {
         });
         tl.getKeyFrames().add(updateTime);
         tl.play();
+        return container;
     }
 
     private Date parseDate(SimpleDateFormat sdf, String parseMe) {
@@ -71,7 +73,7 @@ public class NewsManager {
     private VBox cycle() {
         VBox container = new VBox();
         this.news = this.update();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             Text time = new Text();
 
             Date result = parseDate(this.sdf, this.news.articles.get(i).publishedAt);
@@ -115,7 +117,6 @@ public class NewsManager {
             e.printStackTrace();
             this.news = null;
         }
-//        System.out.println(raw);
         return getNews();
     }
 

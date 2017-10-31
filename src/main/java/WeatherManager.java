@@ -37,7 +37,7 @@ public class WeatherManager {
         this.apiKey = cfw.getWeatherApiKey();
     }
 
-    public Weather updateWeather() {
+    public Weather update() {
         String raw;
         try {
             raw = JsonUtils.getJsonFromURL("https://api.apixu.com/v1/current.json?key=" + this.apiKey + "&q=" + location);
@@ -50,26 +50,25 @@ public class WeatherManager {
         return getWeather();
     }
 
-    void addWeather(final Scene scene) {
+    public VBox make() {
         Timeline tl = new Timeline();
 
-        final Text temp = new Text(this.updateWeather().current.tempF.toString()); // TODO: use getters
-        final Text conditions = new Text(this.updateWeather().current.condition.text); // TODO: use getters
+        final Text temp = new Text(this.update().current.tempF.toString()); // TODO: use getters
+        final Text conditions = new Text(this.update().current.condition.text); // TODO: use getters
 
         VBox weatherContainer = new VBox(temp, conditions);
         weatherContainer.setPadding(new Insets(20)); // TODO make 'n' pixels away from right edge
 
         weatherContainer.setAlignment(Pos.CENTER_RIGHT);
 
-        final VBox root = (VBox)scene.getRoot();
-        root.getChildren().add(weatherContainer);
-
         tl.setCycleCount(Animation.INDEFINITE);
         KeyFrame updateTime = new KeyFrame(Duration.seconds(10 * 60), event -> { // 10 min refresh
-            temp.setText(this.updateWeather().current.tempF.toString());
+            temp.setText(this.update().current.tempF.toString());
         });
         tl.getKeyFrames().add(updateTime);
         tl.play();
+
+        return weatherContainer;
     }
 }
 
