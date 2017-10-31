@@ -4,7 +4,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -57,7 +56,7 @@ public class WeatherManager {
         final Text conditions = new Text(this.update().current.condition.text); // TODO: use getters
 
         VBox weatherContainer = new VBox(temp, conditions);
-        weatherContainer.setPadding(new Insets(20)); // TODO make 'n' pixels away from right edge
+        weatherContainer.setPadding(new Insets(10, 20, 0, 0)); // TODO make 'n' pixels away from right edge
 
         weatherContainer.setAlignment(Pos.CENTER_RIGHT);
 

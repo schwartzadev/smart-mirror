@@ -2,7 +2,6 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -43,7 +42,7 @@ public class DateManager {
         final Text day = new Text(this.getDay() + " • " + this.getFullDate());
 
         VBox timeContainer = new VBox(time, day);
-        timeContainer.setPadding(new Insets(20));
+        timeContainer.setPadding(new Insets(0, 50, 0, 20));
 
         tl.setCycleCount(Animation.INDEFINITE);
         KeyFrame updateTime = new KeyFrame(Duration.seconds(2), event -> { // 2 seconds is the max margin of error for the time

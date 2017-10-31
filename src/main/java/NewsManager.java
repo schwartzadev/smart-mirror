@@ -15,9 +15,7 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -47,7 +45,7 @@ public class NewsManager {
 
         final VBox root = (VBox)scene.getRoot();
         tl.setCycleCount(Animation.INDEFINITE);
-        KeyFrame updateTime = new KeyFrame(Duration.seconds(60 * 2), event -> {
+        KeyFrame updateTime = new KeyFrame(Duration.seconds(10), event -> { //TODO make news replace existing one, not create a new node
             VBox v = cycle();
             root.getChildren().remove(root.lookup("#news-container"));
             root.getChildren().add(v);
@@ -100,7 +98,7 @@ public class NewsManager {
             container.getChildren().add(hBox);
         }
         container.setSpacing(10);
-        container.setPadding(new Insets(20, 20, 20, 80));
+        container.setPadding(new Insets(180, 0, 0, 0));
         container.setId("news-container");
         return container;
     }
